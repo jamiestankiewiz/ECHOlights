@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-# NeoPixel library strandtest example
-# Author: Tony DiCola (tony@tonydicola.com)
-#
-# Direct port of the Arduino NeoPixel library strandtest example.  Showcases
-# various animations on a strip of NeoPixels.
 import time
 #from neopixel import * 11/6/20
 from rpi_ws281x import * # 11/6/20 changed from neopixel to rpi_ws281x
@@ -11,6 +5,7 @@ import argparse
 import pdb
 from strip_functions import *
 from extra_strip_functions import *
+import asyncio
 
 # LED strip configuration:
 LED_COUNT      = 454   # Number of LED pixels.
@@ -35,43 +30,68 @@ light_command = {
     'christmas': christmas # working!! :)
 }
 
-# Main program logic follows:
+async def addTask(light_command, queue):
+    while True:
+        await queue.put(light_command)
+        #put new stuff into queue?
+
+async def getNextItem(queue):
+    while True:
+        if len(queue) > 0:
+            print('Getting next item in queue')
+            light_command = await queue.get()
+            # execute?
+        else:
+            break
+
+async def main():
+    myQueue = asyncio.Queue(loop=loop, maxsize=10)
+    await.wait([addTask(), getNextItem()])
+
+
+
 if __name__ == '__main__':
-    # Process arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
-    args = parser.parse_args()
-
     # Create NeoPixel object with appropriate configuration.
-    #strip = neopixel.NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+    strip = Adafruit_NeoPixel(LED_COUNT,
+                              LED_PIN,
+                              LED_FREQ_HZ,
+                              LED_DMA,
+                              LED_INVERT,
+                              LED_BRIGHTNESS,
+                              LED_CHANNEL
+                             )
     # Intialize the library (must be called once before other functions).
-    #pdb.set_trace()
+    # pdb.set_trace()
     strip.begin()
-    print ('Press Ctrl-C to change light command!')
-    #if not args.clear:
-    #    print('Use "-c" argument to clear LEDs on exit')
+    main()
+    # print ('Press Ctrl-C to change light command!')
+    # if not args.clear:
+    #  print('Use "-c" argument to clear LEDs on exit')
 
-    colorWipe(strip, Color(255,255,255))
-    command = input('    Enter Light Command: ')
-    try:
-        while True:
-            # print('Executing {}'.format(command))
-            try:
-                if command == 'init':
-                    colorWipe(strip, Color(255,255,255))
-                elif command in light_command.keys():
-                    light_command[command](strip)
-                elif 'wheel' in command:
-                    wheel(1)
-                else:
-                    print('command not found')
-                    command = input('    Enter Light Command: ')
-                time.sleep(500/1000.0)
-            except KeyboardInterrupt:
-                command = input('    Enter Light Command: ')
-                time.sleep(500/1000.0)
+    # colorWipe(strip, Color(255,255,255))
+    # command = input('    Enter Light Command: ')
+    # try:
+    #     while True:
+    #         # print('Executing {}'.format(command))
+    #         try:
+    #             # run async coroutines commands here
+    #             if command == 'init':
+    #                 colorWipe(strip, Color(255,255,255))
+    #             elif command in light_command.keys():
+    #                 light_command[command](strip)
+    #             elif 'wheel' in command:
+    #                 wheel(1)
+    #             else:
+    #                 print('command not found')
+    #                 command = input('    Enter Light Command: ')
+    #             time.sleep(500/1000.0)
+    #         except KeyboardInterrupt:
+    #             command = input('    Enter Light Command: ')
+    #             time.sleep(500/1000.0)
+    #         finally:
+    #             # (while) listen to "queue" here
+    #             # wipe and start a new loop
 
-    except KeyboardInterrupt:
-        print('\nThank you for using the ECHO lights. Have a nice day! :)')
-        colorWipe(strip, Color(0,0,0), 10)
+    # except KeyboardInterrupt:
+    #     print('\nThank you for using the ECHO lights. Have a nice day! :)')
+    #     colorWipe(strip, Color(0,0,0), 10)
