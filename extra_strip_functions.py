@@ -29,17 +29,18 @@ def SetAll(strip, color):
 def MeteorRain(strip, MeteorSize=5, MeteorTrailDecay=64,
                MeteorRandomDecay=True, SpeedDelay=.1):
     SetAll(strip, Color(0, 0, 0))
-    for i in range(0, LED_COUNT + LED_COUNT):
-        # Fade brightness all LEDs one step
-        for j in range(0, LED_COUNT):
-            if ((not MeteorRandomDecay) or ((random.randint(0, 10)>5))):
-                FadeToBlack(strip, j, MeteorTrailDecay)
-        # Draw meteor
-        for j in range(0, MeteorSize):
-            if (((i - j) < LED_COUNT) and ((i - j) >= 0)):
-                strip.setPixelColor(i - j, Color(255, 255, 255))
-        strip.show()
-        time.sleep(SpeedDelay)
+    while True:
+        for i in range(0, LED_COUNT + LED_COUNT):
+            # Fade brightness all LEDs one step
+            for j in range(0, LED_COUNT):
+                if ((not MeteorRandomDecay) or ((random.randint(0, 10)>5))):
+                    FadeToBlack(strip, j, MeteorTrailDecay)
+            # Draw meteor
+            for j in range(0, MeteorSize):
+                if (((i - j) < LED_COUNT) and ((i - j) >= 0)):
+                    strip.setPixelColor(i - j, Color(255, 255, 255))
+            strip.show()
+            time.sleep(SpeedDelay)
 
 #Used by MeteorRain
 def FadeToBlack(strip, Position, FadeValue):
@@ -97,9 +98,9 @@ def RandomColors(strip, SpeedDelay=.1):
         strip.show()
         time.sleep(SpeedDelay)
 
-def christmas(strip, iterations=500):
+def christmas(strip):
     colors = [Color(255, 0, 0), Color(0, 0, 0), Color(0, 255, 0), Color(0, 0, 0)]
-    for i in range(iterations):
+    while True:
         for color_iter in range(4):
             for light_pos in range(0, strip.numPixels(), 4):
                 strip.setPixelColor(light_pos+color_iter+i%4, colors[color_iter])
