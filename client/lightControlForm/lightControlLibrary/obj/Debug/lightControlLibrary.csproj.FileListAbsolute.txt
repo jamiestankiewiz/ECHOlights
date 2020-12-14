@@ -1,0 +1,5 @@
+C:\Users\han\source\repos\lightControlForm\lightControlLibrary\bin\Debug\lightControlLibrary.dll
+C:\Users\han\source\repos\lightControlForm\lightControlLibrary\bin\Debug\lightControlLibrary.pdb
+C:\Users\han\source\repos\lightControlForm\lightControlLibrary\obj\Debug\lightControlLibrary.csprojAssemblyReference.cache
+C:\Users\han\source\repos\lightControlForm\lightControlLibrary\obj\Debug\lightControlLibrary.dll
+C:\Users\han\source\repos\lightControlForm\lightControlLibrary\obj\Debug\lightControlLibrary.pdb
