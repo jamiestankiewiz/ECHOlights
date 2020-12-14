@@ -44,9 +44,17 @@ async def getNextItem(queue):
         else:
             break
 
-async def main():
+async def main(light_command):
     myQueue = asyncio.Queue(loop=loop, maxsize=10)
-    await.wait([addTask(), getNextItem()])
+    await asyncio.wait([addTask(light_command, myQueue), getNextItem(myQueue)])
+
+
+loop = asyncio.get_event_loop()
+try:
+    asyncio.ensure_future(myCoroutine())
+    loop.run_forever(main(loop)) # instead of run_until_complete
+finally:
+    loop.close()
 
 
 
