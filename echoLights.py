@@ -48,7 +48,7 @@ async def main(light_command):
     myQueue = asyncio.Queue(loop=loop, maxsize=10)
     await asyncio.wait([addTask(light_command, myQueue), getNextCommand(myQueue)])
 
-
+# testing code
 loop = asyncio.get_event_loop()
 try:
     asyncio.ensure_future(myCoroutine())

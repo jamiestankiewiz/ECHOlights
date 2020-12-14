@@ -48,6 +48,10 @@ async def dataTransfer(clientSocket, queue):
             message = dataMessage[0]
             if message:
                 addTask(message, queue)
+                if task:
+                    task.cancel()
+                # cancel the old task
+                # task.cancel()
             if len(queue) > 0:
                 print('Getting next item in queue')
                 light_message = await queue.get()
@@ -59,7 +63,8 @@ async def dataTransfer(clientSocket, queue):
                     break
                 elif message in light_command.keys():
                     print(f'running {message}')
-                    await light_command[message](strip)
+                    task = asyncio.create_task(light_command[message](strip))
+                    await task
                 elif message == 'testing1':
                     time.sleep(5)
                     reply = 'testing 1 success'
@@ -79,7 +84,6 @@ def closeConnection(clientSocket):
 
 if __name__ == "__main__": 
     s = setupServer()
-
     #Process arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--clear', action='store_true',
@@ -97,9 +101,9 @@ if __name__ == "__main__":
     # Intialize the library (must be called once before other functions).
     #pdb.set_trace()clientSocket.close()
 
-    strip.begin()
     loop = asyncio.get_event_loop()
     myQueue = asyncio.Queue(loop=loop, maxsize=10)
+    strip.begin()
 
     while True:
         try:
@@ -110,11 +114,11 @@ if __name__ == "__main__":
 
         except KeyboardInterrupt:
             print("Closing socket connection...")
-            s.close()
+            # s.close()
             break
 
         finally:
-            s.close()
             print("Connection terminated")
             print("------------------------")
             #closeConnection(conn)
+    s.close()
