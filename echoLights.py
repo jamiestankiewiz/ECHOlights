@@ -57,22 +57,21 @@ finally:
     loop.close()
 
 
-
-if __name__ == '__main__':
-    # Create NeoPixel object with appropriate configuration.
-    strip = Adafruit_NeoPixel(LED_COUNT,
-                              LED_PIN,
-                              LED_FREQ_HZ,
-                              LED_DMA,
-                              LED_INVERT,
-                              LED_BRIGHTNESS,
-                              LED_CHANNEL
-                             )
-    # Intialize the library (must be called once before other functions).
-    # pdb.set_trace()
-    strip.begin()
-    main()
-    # print ('Press Ctrl-C to change light command!')
+# if __name__ == '__main__':
+#     # Create NeoPixel object with appropriate configuration.
+#     strip = Adafruit_NeoPixel(LED_COUNT,
+#                               LED_PIN,
+#                               LED_FREQ_HZ,
+#                               LED_DMA,
+#                               LED_INVERT,
+#                               LED_BRIGHTNESS,
+#                               LED_CHANNEL
+#                              )
+#     # Intialize the library (must be called once before other functions).
+#     # pdb.set_trace()
+#     strip.begin()
+#     main()
+#     # print ('Press Ctrl-C to change light command!')
     # if not args.clear:
     #  print('Use "-c" argument to clear LEDs on exit')
 
