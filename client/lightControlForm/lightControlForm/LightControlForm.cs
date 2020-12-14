@@ -29,7 +29,7 @@ namespace lightControlForm
             // Connect to the socket
             try
             {
-                Client = new SocketConnection("10.10.14.53", 7772);
+                Client = new SocketConnection("10.10.14.53", 7790);
                 Client.SocketSetup();
                 Client.Connect();
 
@@ -41,11 +41,13 @@ namespace lightControlForm
             }
         }
 
-        private void disconnectBtn_Click(object sender, EventArgs e)
+        private async void disconnectBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 // Disconnect from the socket
+                var resp = await Task.Run(() => Client.Send("exit"));
+                MessageBox.Show(resp);
                 Client.Disconnect();
 
                 buttotnStatus();
@@ -56,16 +58,16 @@ namespace lightControlForm
             }
         }
 
-        private void christmasLightBtn_Click(object sender, EventArgs e)
+        private async void christmasLightBtn_Click(object sender, EventArgs e)
         {
             // Christmas Light
 
             //var resp = Client.Send("testing1");
 
-            var resp = Task.Run(() => Client.Send("testing1"));
+            var resp = await Task.Run(() => Client.Send("testing1"));
 
             //var resp = Client.Send("testing");
-            MessageBox.Show(resp.Result);
+            MessageBox.Show(resp);
         }
 
         private void rainbowBtn_Click(object sender, EventArgs e)
