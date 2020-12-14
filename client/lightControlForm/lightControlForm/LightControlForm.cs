@@ -29,7 +29,7 @@ namespace lightControlForm
             // Connect to the socket
             try
             {
-                Client = new SocketConnection("10.10.14.53", 7790);
+                Client = new SocketConnection("10.10.14.53", 7792);
                 Client.SocketSetup();
                 Client.Connect();
 
