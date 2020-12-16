@@ -36,42 +36,42 @@ light_command = {
 }
 
 # Main program logic follows:
-if __name__ == '__main__':
-    # Process arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
-    args = parser.parse_args()
+# if __name__ == '__main__':
+#     # Process arguments
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
+#     args = parser.parse_args()
 
-    # Create NeoPixel object with appropriate configuration.
-    #strip = neopixel.NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    # Intialize the library (must be called once before other functions).
-    #pdb.set_trace()
-    strip.begin()
-    print ('Press Ctrl-C to change light command!')
-    #if not args.clear:
-    #    print('Use "-c" argument to clear LEDs on exit')
+#     # Create NeoPixel object with appropriate configuration.
+#     #strip = neopixel.NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+#     strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+#     # Intialize the library (must be called once before other functions).
+#     #pdb.set_trace()
+#     strip.begin()
+#     print ('Press Ctrl-C to change light command!')
+#     #if not args.clear:
+#     #    print('Use "-c" argument to clear LEDs on exit')
 
-    colorWipe(strip, Color(255,255,255))
-    command = input('    Enter Light Command: ')
-    try:
-        while True:
-            # print('Executing {}'.format(command))
-            try:
-                if command == 'init':
-                    colorWipe(strip, Color(255,255,255))
-                elif command in light_command.keys():
-                    light_command[command](strip)
-                elif 'wheel' in command:
-                    wheel(1)
-                else:
-                    print('command not found')
-                    command = input('    Enter Light Command: ')
-                time.sleep(500/1000.0)
-            except KeyboardInterrupt:
-                command = input('    Enter Light Command: ')
-                time.sleep(500/1000.0)
+#     colorWipe(strip, Color(255,255,255))
+#     command = input('    Enter Light Command: ')
+#     try:
+#         while True:
+#             # print('Executing {}'.format(command))
+#             try:
+#                 if command == 'init':
+#                     colorWipe(strip, Color(255,255,255))
+#                 elif command in light_command.keys():
+#                     light_command[command](strip)
+#                 elif 'wheel' in command:
+#                     wheel(1)
+#                 else:
+#                     print('command not found')
+#                     command = input('    Enter Light Command: ')
+#                 time.sleep(500/1000.0)
+#             except KeyboardInterrupt:
+#                 command = input('    Enter Light Command: ')
+#                 time.sleep(500/1000.0)
 
-    except KeyboardInterrupt:
-        print('\nThank you for using the ECHO lights. Have a nice day! :)')
-        colorWipe(strip, Color(0,0,0), 10)
+#     except KeyboardInterrupt:
+#         print('\nThank you for using the ECHO lights. Have a nice day! :)')
+#         colorWipe(strip, Color(0,0,0), 10)

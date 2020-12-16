@@ -3,11 +3,14 @@ import socket
 import queue as Q
 import time
 from multiprocessing import Process, Queue
+import echoLights
+from rpi_ws281x import *
 
+PORT = 7804
 
 def socketBinding(port):
     """
-    This function creates the socket and binds to the given ip address an host
+    This function creates the socket and binds to the given ip address an host.
     """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,30 +19,27 @@ def socketBinding(port):
         s.listen(1)
         clientSocket, address = s.accept()
         print("Socket bind completed")
-        print("Connection from {0} has been established",address)
+        print("Connection from {address} has been established")
         return clientSocket
-    
     except socket.error as msg:
         print(msg)
-    
     return clientSocket
 
-def readMessage(q,sock):
+def readMessage(q, sock):
     """
-    This function reads the message from the client and stores the message in the queue
+    This function reads the message from the client and stores the message in
+    the queue.
     """
     while True:
       data = sock.recv(1024)
       data = data.decode('utf-8')
-      dataMessage = data.split(' ',1)
+      dataMessage = data.split(' ', 1)
       command = dataMessage[0]
-
-    #   print(command)
       q.put(command)
 
 def sendMessage(msg, port):
     """
-    This function writes the message from the server to the client
+    This function writes the message from the server to the client.
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     sock.sendto(msg, port)
@@ -54,73 +54,73 @@ def rainbow():
     print("rainbow")
     time.sleep(0.5)
 
-
 def main():
-    # Process arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
-    args = parser.parse_args()
-
     # Create NeoPixel object with appropriate configuration.
-    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+    strip = Adafruit_NeoPixel(LED_COUNT,
+                              LED_PIN,
+                              LED_FREQ_HZ,
+                              LED_DMA,
+                              LED_INVERT,
+                              LED_BRIGHTNESS,
+                              LED_CHANNEL
+                              )
     strip.begin()
 
-    info = ('', 7804) # host and port number
+    info = ('', PORT) # host and port number
 
     # setting the socket connection
     clientSocket = socketBinding(info)
 
-    q = Queue()
-    t = None   # the read processing thread
-    r = None   # the main processing thread
+    queue = Queue()
+    main_process = None   # the read processing thread
+    message_process = None   # the main processing thread
 
     while True:
-
-        if r == None:
-            r = Process(target=readMessage, args=(q, clientSocket))
-            r.start()
+        if message_process == None:
+            message_process = Process(target=readMessage,
+                                      args=(queue, clientSocket))
+            message_process.start()
             print ("client loop started")
 
-        m = q.get()
+        msg = queue.get()
         
-        if m == 'christmas':
-            if t:
-                print("processing thread already started")
-            else:
-                t = Process(target = christmasLight)
-                t.start()
-                print("processing thread started")
-        elif m == "rainbow":
-            if t:
-                print("processing thread already started")
-            else:
-                t = Process(target = rainbow)
-                t.start()
-                print("processing thread started")
-        elif m == "stop":
-            if t:
-                t.terminate()
-                t = None
+
+        if msg == "stop":
+            if main_process:
+                main_process.terminate()
+                main_process = None
                 print("processing thread stopped")
             else:
                 print("processing thread not running")
-
-        elif m == "quit":
+        elif msg == "quit":
             print("shutting down...")
             clientSocket.send(str.encode('quit'))
-
-            if t:
-                t.terminate()
-                t = None  # play it safe
-            if r:
-                r.terminate()
-                r = None
-
+            if main_process:
+                main_process.terminate()
+                main_process = None  # play it safe
+            if message_process:
+                message_process.terminate()
+                message_process = None
             clientSocket.close()
             break
         else:
-            pass
+            main_process = Process(target=light_command[msg](strip))
+            main_process.start()
 
+        # if msg == 'christmas':
+        #     if main_process:
+        #         print("processing thread already started")
+        #     else:
+        #         main_process = Process(target = christmasLight)
+        #         main_process.start()
+        #         print("processing thread started")
+        # elif msg == "rainbow":
+        #     if main_process:
+        #         print("processing thread already started")
+        #     else:
+        #         main_process = Process(target = rainbow)
+        #         main_process.start()
+        #         print("processing thread started")
 
 
 if __name__ == "__main__": 
