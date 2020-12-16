@@ -6,7 +6,7 @@ from multiprocessing import Process, Queue
 from echoLights import *
 from rpi_ws281x import *
 
-PORT = 7805
+PORT = 7806
 
 def socketBinding(port):
     """
@@ -23,7 +23,7 @@ def socketBinding(port):
         return clientSocket
     except socket.error as msg:
         print(msg)
-    return clientSocket
+    #return clientSocket
 
 def readMessage(q, sock):
     """
@@ -41,7 +41,7 @@ def sendMessage(msg, port):
     """
     This function writes the message from the server to the client.
     """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.sendto(msg, port)
 
 def christmasLight():
@@ -85,7 +85,7 @@ def main():
             print ("client loop started")
 
         msg = queue.get()
-        
+
 
         if msg == "stop":
             if main_process:
@@ -99,21 +99,17 @@ def main():
             clientSocket.send(str.encode('quit'))
             if main_process:
                 main_process.terminate()
-                main_process = None  
+                main_process = None
             if message_process:
                 message_process.terminate()
                 message_process = None
             clientSocket.close()
             break
         else:
-            main_process = Process(target=light_command[msg],args=(strip,))
+            main_process = Process(target=light_command[msg], args=(strip,))
             main_process.start()
-    
 
-        
-
-
-if __name__ == "__main__": 
+if __name__ == "__main__":
     try:
         while True:
             main()
