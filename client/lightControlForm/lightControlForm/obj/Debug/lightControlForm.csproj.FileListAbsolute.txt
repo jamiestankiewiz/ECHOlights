@@ -1,0 +1,12 @@
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\bin\Debug\lightControlForm.exe.config
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\bin\Debug\lightControlForm.exe
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\bin\Debug\lightControlForm.pdb
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\bin\Debug\lightControlLibrary.dll
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\bin\Debug\lightControlLibrary.pdb
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.csprojAssemblyReference.cache
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.LightControlForm.resources
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.Properties.Resources.resources
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.csproj.GenerateResource.cache
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.csproj.CopyComplete
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.exe
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.pdb

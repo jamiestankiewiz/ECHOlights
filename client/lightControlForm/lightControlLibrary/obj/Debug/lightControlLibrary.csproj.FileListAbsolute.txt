@@ -1,0 +1,4 @@
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlLibrary\bin\Debug\lightControlLibrary.dll
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlLibrary\bin\Debug\lightControlLibrary.pdb
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlLibrary\obj\Debug\lightControlLibrary.dll
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlLibrary\obj\Debug\lightControlLibrary.pdb
