@@ -34,16 +34,8 @@ def dataTransfer(clientSocket):
             dataMessage = data.split(' ',1)
             command = dataMessage[0]
 
-            if command == 'error':
-                reply = 'error' # LED light
-                clientSocket.send(str.encode(reply))
-                colorWipe(strip, Color(0, 255, 0))
-
-            elif command in light_command.keys():
-                    light_command[command](strip)
-
-            elif command == 'testing1':
-                time.sleep(5)
+            if command == 'testing1':
+                #christmas light function () -=> new Task
                 reply = 'testing 1 success'
                 print("Sending Message: " + reply)
                 clientSocket.send(str.encode(reply))
@@ -53,10 +45,6 @@ def dataTransfer(clientSocket):
                 reply = 'testing 2 success'
                 print("Sending Message: " + reply)
                 clientSocket.send(str.encode(reply))
-
-#    time.sleep(5)
-            #if command == 'halt':
-            #   populate Queue with something
 
             elif command == 'exit':
                 reply = 'exit'
