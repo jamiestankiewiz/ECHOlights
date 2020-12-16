@@ -76,8 +76,8 @@ def main():
     message_process = None   # the main processing thread
 
     while True:
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if message_process == None:
             message_process = Process(target=readMessage,
                                       args=(queue, clientSocket))
@@ -99,7 +99,7 @@ def main():
             clientSocket.send(str.encode('quit'))
             if main_process:
                 main_process.terminate()
-                main_process = None  # play it safe
+                main_process = None  
             if message_process:
                 message_process.terminate()
                 message_process = None
@@ -107,23 +107,8 @@ def main():
             break
         else:
             main_process = Process(target=light_command[msg],args=(strip,))
-            # main_process = Process(target=rainbow)
             main_process.start()
 
-        # if msg == 'christmas':
-        #     if main_process:
-        #         print("processing thread already started")
-        #     else:
-        #         main_process = Process(target = christmasLight)
-        #         main_process.start()
-        #         print("processing thread started")
-        # elif msg == "rainbow":
-        #     if main_process:
-        #         print("processing thread already started")
-        #     else:
-        #         main_process = Process(target = rainbow)
-        #         main_process.start()
-        #         print("processing thread started")
 
 
 if __name__ == "__main__": 
