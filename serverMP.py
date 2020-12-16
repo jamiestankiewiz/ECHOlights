@@ -34,7 +34,7 @@ def readMessage(q,sock):
       dataMessage = data.split(' ',1)
       command = dataMessage[0]
 
-      print(command)
+    #   print(command)
       q.put(command)
 
 def sendMessage(msg, port):
@@ -56,16 +56,16 @@ def rainbow():
 
 
 def main():
-    #Process arguments
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
-    # args = parser.parse_args()
+    # Process arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
+    args = parser.parse_args()
 
-    # # Create NeoPixel object with appropriate configuration.
-    # strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    # strip.begin()
+    # Create NeoPixel object with appropriate configuration.
+    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+    strip.begin()
 
-    info = ('',7804) # host and port number
+    info = ('', 7804) # host and port number
 
     # setting the socket connection
     clientSocket = socketBinding(info)
@@ -77,7 +77,7 @@ def main():
     while True:
 
         if r == None:
-            r = Process(target = readMessage, args=(q,clientSocket))
+            r = Process(target=readMessage, args=(q, clientSocket))
             r.start()
             print ("client loop started")
 
@@ -121,7 +121,8 @@ def main():
         else:
             pass
 
-if __name__ == "__main__": 
 
+
+if __name__ == "__main__": 
     while True:
         main()
