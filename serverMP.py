@@ -5,24 +5,26 @@ import time
 from multiprocessing import Process, Queue
 
 
-def socketBinding(host,port_num):
+def socketBinding(port):
     """
     This function creates the socket and binds to the given ip address an host
     """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind((host,port_num))
+        s.bind(port)
         s.listen(1)
         clientSocket, address = s.accept()
         print("Socket bind completed")
         print("Connection from {0} has been established",address)
+        return clientSocket
+    
     except socket.error as msg:
         print(msg)
     
     return clientSocket
 
-def read_message(q,sock):
+def readMessage(q,sock):
     """
     This function reads the message from the client and stores the message in the queue
     """
@@ -34,6 +36,13 @@ def read_message(q,sock):
 
       print(command)
       q.put(command)
+
+def sendMessage(msg, port):
+    """
+    This function writes the message from the server to the client
+    """
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    sock.sendto(msg, port)
 
 def christmasLight():
   while True:
@@ -56,24 +65,23 @@ def main():
     # strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
     # strip.begin()
 
-    host = ''
-    port_num = 7804
-    isConnected = False
-    mySocket = None
-    # pdb.set_trace()
+    info = ('',7804) # host and port number
 
     # setting the socket connection
-    clientSocket = socketBinding(host,port_num)
+    clientSocket = socketBinding(info)
 
     q = Queue()
-    r = Process(target = read_message, args=(q,clientSocket))
-    r.start()
+    t = None   # the read processing thread
+    r = None   # the main processing thread
 
-    print ("client loop started")
-    t = None   # the processing thread
     while True:
+
+        if r == None:
+            r = Process(target = readMessage, args=(q,clientSocket))
+            r.start()
+            print ("client loop started")
+
         m = q.get()
-        print(m)
         
         if m == 'christmas':
             if t:
@@ -97,33 +105,23 @@ def main():
             else:
                 print("processing thread not running")
 
-        # elif m == "quit":
-        #     print("shutting down")
-        #     if t:
-        #         t.terminate()
-        #         t = None  # play it safe
-        #     break
-        # else:
-        #     print("huh?")
-    r.terminate()
+        elif m == "quit":
+            print("shutting down...")
+            clientSocket.send(str.encode('quit'))
 
+            if t:
+                t.terminate()
+                t = None  # play it safe
+            if r:
+                r.terminate()
+                r = None
 
-    # while True:
-    #     try:
-    #         if not isConnected:
-    #             mySocket =  socketConnecting(s)
-    #             print(f"Connection established. Port: {port_num}")
-
-    #         dataTransfer(mySocket)
-
-    #     except KeyboardInterrupt:
-    #         print("Closing socket connection...")
-    #         if mySocket in locals():
-    #             mySocket.close()
-    #         break
-    #     finally:
-    #         print("Connection terminated")
-    #         print("------------------------")
+            clientSocket.close()
+            break
+        else:
+            pass
 
 if __name__ == "__main__": 
-    main()
+
+    while True:
+        main()
