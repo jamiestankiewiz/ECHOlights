@@ -6,7 +6,7 @@ from multiprocessing import Process, Queue
 from echoLights import *
 from rpi_ws281x import *
 
-PORT = 7804
+PORT = 7805
 
 def socketBinding(port):
     """
@@ -19,7 +19,7 @@ def socketBinding(port):
         s.listen(1)
         clientSocket, address = s.accept()
         print("Socket bind completed")
-        print("Connection from {address} has been established")
+        print(f"Connection from {address} has been established")
         return clientSocket
     except socket.error as msg:
         print(msg)
@@ -57,13 +57,13 @@ def rainbow():
 def main():
     # Create NeoPixel object with appropriate configuration.
     strip = Adafruit_NeoPixel(LED_COUNT,
-                              LED_PIN,
-                              LED_FREQ_HZ,
-                              LED_DMA,
-                              LED_INVERT,
-                              LED_BRIGHTNESS,
-                              LED_CHANNEL
-                              )
+                            LED_PIN,
+                            LED_FREQ_HZ,
+                            LED_DMA,
+                            LED_INVERT,
+                            LED_BRIGHTNESS,
+                            LED_CHANNEL
+                            )
     strip.begin()
 
     info = ('', PORT) # host and port number
@@ -80,7 +80,7 @@ def main():
         # pdb.set_trace()
         if message_process == None:
             message_process = Process(target=readMessage,
-                                      args=(queue, clientSocket))
+                                    args=(queue, clientSocket))
             message_process.start()
             print ("client loop started")
 
@@ -108,9 +108,14 @@ def main():
         else:
             main_process = Process(target=light_command[msg],args=(strip,))
             main_process.start()
+    
 
+        
 
 
 if __name__ == "__main__": 
-    while True:
-        main()
+    try:
+        while True:
+            main()
+    except KeyboardInterrupt:
+        print("Terminating the program")
