@@ -36,6 +36,53 @@ def SetAll(strip, color):
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
 
+def random_color():
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        return Color(r, g, b)
+
+def asc_desc(start, finish):
+    return list(range(start, finish)) + list(range(finish, start, -1))
+
+def alternate_single(strip, color=None, wait_ms=1000):
+    if not color:
+        color = random_color()
+    while True:
+        for led in range(0, strip.numPixels(),2):
+            strip.setPixelColor(led + i%2, color)
+            strip.setPixelColor(led + i%2 + 1, BLANK)
+            strip.show()
+        time.sleep(wait_ms/1000)
+
+def zip_down_back(strip, wait_ms=100):
+    color = random_color()
+    while True:
+        for led in list(range(int(strip.numPixels()))) + \
+                    list(range(int(strip.numPixels()), -2, -1)):
+            strip.setPixelColor(led, color)
+            strip.show()
+            time.sleep(wait_ms/1000)
+            strip.setPixelColor(led, BLANK)
+
+def stack(strip, color=None, wait_ms=100):
+    color = random_color()
+    while True:
+        for led_end_pos in range(strip.numPixels()+1, -1, -1):
+            for led in range(led_end_pos-1):
+                strip.setPixelColor(led, color)
+                strip.show()
+                time.sleep(wait_ms/1000.0)
+                strip.setPixelColor(led, BLANK)
+            strip.setPixelColor(led, color)
+        for _ in range(4):
+            SetAll(strip, BLANK)
+            strip.show()
+            time.sleep(wait_ms/1000)
+            SetAll(strip, color)
+            strip.show()
+            time.sleep(wait_ms/1000)
+
 def MeteorRain(strip, MeteorSize=5, MeteorTrailDecay=64,
                MeteorRandomDecay=True, SpeedDelay=.1):
     SetAll(strip, BLANK)
@@ -76,11 +123,8 @@ def FillDownRandom(strip, SpeedDelay=0, DisplayDelay=.1, PauseDelay=1,
     SetAll(strip, BLANK)
     #Fill down with random colors
     for i in range(0, LED_COUNT):
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
         for j in range(0,LED_COUNT-i):
-            strip.setPixelColor(j, Color(r, g, b))
+            strip.setPixelColor(j, random_color())
             if j > 0:
                 strip.setPixelColor(j-1, BLANK)
             strip.show()
@@ -101,10 +145,7 @@ def RandomColors(strip, SpeedDelay=.1):
     SetAll(strip, BLANK)
     while True:
         for i in range(0, LED_COUNT):
-            r=random.randint(0, 255)
-            g=random.randint(0, 255)
-            b=random.randint(0, 255)
-            strip.setPixelColor(i, Color(r, g, b))
+            strip.setPixelColor(i, random_color())
         strip.show()
         time.sleep(SpeedDelay)
 
@@ -127,10 +168,7 @@ def christmas(strip):
 def colorWipe(strip, color=None, wait_ms=1000):
     """Wipe color across display a pixel at a time."""
     if not color:
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        color = Color(r, g, b)
+        color = random_color()
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
     strip.show()
@@ -138,10 +176,7 @@ def colorWipe(strip, color=None, wait_ms=1000):
 
 def theaterChase(strip, wait_ms=100):
     """Movie theater light style chaser animation."""
-    r = random.randint(0, 255)
-    g = random.randint(0, 255)
-    b = random.randint(0, 255)
-    color = Color(r, g, b)
+    color = random_color()
     while True:
         for q in range(3):
             for i in range(0, strip.numPixels(), 3):
