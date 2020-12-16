@@ -114,6 +114,7 @@
             // 
             this.ipAddressTextBox.Location = new System.Drawing.Point(76, 7);
             this.ipAddressTextBox.Name = "ipAddressTextBox";
+            this.ipAddressTextBox.ReadOnly = true;
             this.ipAddressTextBox.Size = new System.Drawing.Size(100, 20);
             this.ipAddressTextBox.TabIndex = 6;
             this.ipAddressTextBox.Text = "10.10.14.53";
@@ -124,7 +125,7 @@
             this.portTextBox.Name = "portTextBox";
             this.portTextBox.Size = new System.Drawing.Size(100, 20);
             this.portTextBox.TabIndex = 7;
-            this.portTextBox.Text = "7804";
+            this.portTextBox.Text = "7805";
             // 
             // ipAddressLabel
             // 
