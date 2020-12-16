@@ -21,10 +21,10 @@ namespace lightControlForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            disconnectBtn.Enabled = false; 
-            christmasLightBtn.Enabled = false;
-            rainbowBtn.Enabled = false;
+            disconnectBtn.Enabled = false;
             stopBtn.Enabled = false;
+            connectBtn.Focus();
+            allBtnOff();
         }
         private void connectBtn_Click(object sender, EventArgs e)
         {
@@ -80,17 +80,16 @@ namespace lightControlForm
             {
                 connectBtn.Enabled = false;
                 disconnectBtn.Enabled = true;
-                christmasLightBtn.Enabled = true;
-                stopBtn.Enabled = true;
-                rainbowBtn.Enabled = true;
+                allBtnON();
+
+
             }
             else
             {
                 connectBtn.Enabled = true;
                 disconnectBtn.Enabled = false;
-                christmasLightBtn.Enabled = false;
                 stopBtn.Enabled = false;
-                rainbowBtn.Enabled = false;
+                allBtnOff();
             }
         }
 
@@ -120,6 +119,7 @@ namespace lightControlForm
             colorWipeBtn.Enabled = true;
             christmasLightBtn.Enabled = true;
             rainbowBtn.Enabled = true;
+            stopBtn.Enabled = true;
         }
 
         private void allBtnOff()
