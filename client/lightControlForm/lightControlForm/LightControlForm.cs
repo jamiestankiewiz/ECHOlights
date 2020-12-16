@@ -21,15 +21,18 @@ namespace lightControlForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            disconnectBtn.Enabled = false;
+            disconnectBtn.Enabled = false; 
             christmasLightBtn.Enabled = false;
+            rainbowBtn.Enabled = false;
+            stopBtn.Enabled = false;
         }
         private void connectBtn_Click(object sender, EventArgs e)
         {
             // Connect to the socket
             try
             {
-                Client = new SocketConnection("10.10.14.53", 7772);
+                //Client = new SocketConnection("192.168.0.14",7804);//"10.10.14.53", 7802);
+                Client = new SocketConnection(ipAddressTextBox.Text, Convert.ToInt32(portTextBox.Text));
                 Client.SocketSetup();
                 Client.Connect();
 
@@ -41,11 +44,12 @@ namespace lightControlForm
             }
         }
 
-        private void disconnectBtn_Click(object sender, EventArgs e)
+        private async void disconnectBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 // Disconnect from the socket
+                var resp = await Task.Run(() => Client.Send("quit"));
                 Client.Disconnect();
 
                 buttotnStatus();
@@ -56,22 +60,18 @@ namespace lightControlForm
             }
         }
 
-        private void christmasLightBtn_Click(object sender, EventArgs e)
+        private async void christmasLightBtn_Click(object sender, EventArgs e)
         {
-            // Christmas Light
+            allBtnOff();
+            await Task.Run(() => Client.Send("christmas"));
 
-            //var resp = Client.Send("testing1");
-
-            var resp = Task.Run(() => Client.Send("testing1"));
-
-            //var resp = Client.Send("testing");
-            MessageBox.Show(resp.Result);
         }
 
-        private void rainbowBtn_Click(object sender, EventArgs e)
+        private async void rainbowBtn_Click(object sender, EventArgs e)
         {
-            var resp = Task.Run(() => Client.Send("testing2"));
-            MessageBox.Show(resp.Result);
+            allBtnOff();
+            await Task.Run(() => Client.Send("rainbow"));
+
         }
 
         private void buttotnStatus()
@@ -81,20 +81,52 @@ namespace lightControlForm
                 connectBtn.Enabled = false;
                 disconnectBtn.Enabled = true;
                 christmasLightBtn.Enabled = true;
+                stopBtn.Enabled = true;
+                rainbowBtn.Enabled = true;
             }
             else
             {
                 connectBtn.Enabled = true;
                 disconnectBtn.Enabled = false;
                 christmasLightBtn.Enabled = false;
+                stopBtn.Enabled = false;
+                rainbowBtn.Enabled = false;
             }
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            Client.Disconnect();
+            if (Client != null)
+            {
+                Client.Disconnect();
+                buttotnStatus();
+            }
+        }
 
-            buttotnStatus();
+        private async void stopBtn_Click(object sender, EventArgs e)
+        {
+            allBtnON();
+            await Task.Run(() => Client.Send("stop"));
+        }
+
+        private async void colorWipeBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("color"));
+        }
+
+        private void allBtnON()
+        {
+            colorWipeBtn.Enabled = true;
+            christmasLightBtn.Enabled = true;
+            rainbowBtn.Enabled = true;
+        }
+
+        private void allBtnOff()
+        {
+            colorWipeBtn.Enabled = false;
+            christmasLightBtn.Enabled = false;
+            rainbowBtn.Enabled = false;
         }
     }
 }
