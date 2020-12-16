@@ -109,8 +109,13 @@ def RandomColors(strip, SpeedDelay=.1):
         time.sleep(SpeedDelay)
 
 def christmas(strip):
+    import pdb
+    pdb.set_trace()
+
     colors = [RED, BLANK, GREEN, BLANK]
+    print("CHRISTMAS")
     while True:
+        print("CHRISTMAS-while")
         for color_iter in range(4):
             for light_pos in range(0, strip.numPixels(), 4):
                 strip.setPixelColor(light_pos+color_iter+i%4,

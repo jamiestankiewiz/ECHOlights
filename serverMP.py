@@ -3,7 +3,7 @@ import socket
 import queue as Q
 import time
 from multiprocessing import Process, Queue
-import echoLights
+from echoLights import *
 from rpi_ws281x import *
 
 PORT = 7804
@@ -76,6 +76,8 @@ def main():
     message_process = None   # the main processing thread
 
     while True:
+        import pdb
+        pdb.set_trace()
         if message_process == None:
             message_process = Process(target=readMessage,
                                       args=(queue, clientSocket))
@@ -104,7 +106,8 @@ def main():
             clientSocket.close()
             break
         else:
-            main_process = Process(target=light_command[msg](strip))
+            main_process = Process(target=light_command[msg],args=(strip,))
+            # main_process = Process(target=rainbow)
             main_process.start()
 
         # if msg == 'christmas':
