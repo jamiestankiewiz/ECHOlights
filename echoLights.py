@@ -35,18 +35,19 @@ async def addTask(light_command, queue):
         await queue.put(light_command)
         #put new stuff into queue?
 
-async def getNextCommand(queue):
+async def runCommand(queue):
     while True:
-        if len(queue) > 0:
+        if queue:
             # interrupt current function
             print('Getting next item in queue')
-            command = await queue.get()
+            # command = await queue.get()
             # execute?
-            # light_command[command](strip)
+            light_command[command](strip)
 
 async def main(light_command):
     myQueue = asyncio.Queue(loop=loop, maxsize=10)
-    await asyncio.wait([addTask(light_command, myQueue), getNextCommand(myQueue)])
+    await asyncio.wait([addTask(light_command, myQueue), runCommand(myQueue)])
+    # await [(run the light command), (wait for a new message)]
 
 # testing code
 loop = asyncio.get_event_loop()
