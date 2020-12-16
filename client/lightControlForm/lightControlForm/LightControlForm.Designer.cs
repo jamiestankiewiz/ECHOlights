@@ -42,24 +42,28 @@
             // 
             // connectBtn
             // 
+            this.connectBtn.BackColor = System.Drawing.Color.Lime;
+            this.connectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.connectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.connectBtn.Location = new System.Drawing.Point(47, 63);
             this.connectBtn.Name = "connectBtn";
             this.connectBtn.Size = new System.Drawing.Size(107, 40);
             this.connectBtn.TabIndex = 0;
             this.connectBtn.Text = "Connect";
-            this.connectBtn.UseVisualStyleBackColor = true;
+            this.connectBtn.UseVisualStyleBackColor = false;
             this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
             // 
             // disconnectBtn
             // 
+            this.disconnectBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.disconnectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.disconnectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.disconnectBtn.Location = new System.Drawing.Point(179, 63);
             this.disconnectBtn.Name = "disconnectBtn";
             this.disconnectBtn.Size = new System.Drawing.Size(107, 40);
             this.disconnectBtn.TabIndex = 1;
             this.disconnectBtn.Text = "Disconnect";
-            this.disconnectBtn.UseVisualStyleBackColor = true;
+            this.disconnectBtn.UseVisualStyleBackColor = false;
             this.disconnectBtn.Click += new System.EventHandler(this.disconnectBtn_Click);
             // 
             // christmasLightBtn
@@ -87,7 +91,7 @@
             // stopBtn
             // 
             this.stopBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopBtn.Location = new System.Drawing.Point(219, 132);
+            this.stopBtn.Location = new System.Drawing.Point(231, 132);
             this.stopBtn.Name = "stopBtn";
             this.stopBtn.Size = new System.Drawing.Size(39, 157);
             this.stopBtn.TabIndex = 4;
@@ -145,7 +149,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::lightControlForm.Properties.Resources.AdobeStock_96977357;
-            this.ClientSize = new System.Drawing.Size(345, 404);
+            this.ClientSize = new System.Drawing.Size(325, 384);
             this.Controls.Add(this.portLabel);
             this.Controls.Add(this.ipAddressLabel);
             this.Controls.Add(this.portTextBox);
