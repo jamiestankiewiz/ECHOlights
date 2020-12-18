@@ -153,37 +153,37 @@ namespace lightControlForm
         private async void rainbowCycle_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("rainbow cycle"));
+            await Task.Run(() => Client.Send("rainbowCycle"));
         }
 
         private async void meteorRainBtn_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("meteor rain"));
+            await Task.Run(() => Client.Send("meteorRain"));
         }
 
         private async void fillRandomBtn_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("fill random"));
+            await Task.Run(() => Client.Send("fillRandom"));
         }
 
         private async void theaterChaseBtn_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("theater chase"));
+            await Task.Run(() => Client.Send("theaterChase"));
         }
 
         private async void theaterChaseRainbow_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("theater chase rainbow"));
+            await Task.Run(() => Client.Send("theaterChaseRainbow"));
         }
 
         private async void alternateSingleBtn_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("alternate single"));
+            await Task.Run(() => Client.Send("alternateSingle"));
         }
 
         private async void zipBtn_Click(object sender, EventArgs e)
@@ -201,7 +201,7 @@ namespace lightControlForm
         private async void randomColorsBtn_Click(object sender, EventArgs e)
         {
             allBtnOff();
-            await Task.Run(() => Client.Send("random colors"));
+            await Task.Run(() => Client.Send("randomColors"));
         }
 
         private void textChanged(object sender, EventArgs e)
