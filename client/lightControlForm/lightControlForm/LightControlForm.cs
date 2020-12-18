@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using lightControlForm.Properties;
 using lightControlLibrary;
 
 namespace lightControlForm
@@ -25,13 +26,15 @@ namespace lightControlForm
             stopBtn.Enabled = false;
             connectBtn.Focus();
             allBtnOff();
+            portTextBox.Text = Settings.Default.Port.ToString();
+            ipAddressTextBox.Text = Settings.Default.IpAdd;
+            
         }
         private void connectBtn_Click(object sender, EventArgs e)
         {
             // Connect to the socket
             try
             {
-                //Client = new SocketConnection("192.168.0.14",7804);//"10.10.14.53", 7802);
                 Client = new SocketConnection(ipAddressTextBox.Text, Convert.ToInt32(portTextBox.Text));
                 Client.SocketSetup();
                 Client.Connect();
@@ -58,20 +61,6 @@ namespace lightControlForm
             {
                 MessageBox.Show($"ERROR: {ex.Message}.", "Disconnect Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private async void christmasLightBtn_Click(object sender, EventArgs e)
-        {
-            allBtnOff();
-            await Task.Run(() => Client.Send("christmas"));
-
-        }
-
-        private async void rainbowBtn_Click(object sender, EventArgs e)
-        {
-            allBtnOff();
-            await Task.Run(() => Client.Send("rainbow"));
-
         }
 
         private void buttotnStatus()
@@ -102,6 +91,53 @@ namespace lightControlForm
             }
         }
 
+        private void allBtnON()
+        {
+            colorWipeBtn.Enabled = true;
+            christmasLightBtn.Enabled = true;
+            rainbowBtn.Enabled = true;
+            stopBtn.Enabled = true;
+            rainbowBtn.Enabled = true;
+            rainbowCycleBtn.Enabled = true;
+            meteorRainBtn.Enabled = true;
+            fillRandomBtn.Enabled = true;
+            randomColorsBtn.Enabled = true;
+            theaterChaseBtn.Enabled = true;
+            theaterChaseRainbowBtn.Enabled = true;
+            alternateSingleBtn.Enabled = true;
+            zipBtn.Enabled = true;
+            StackBtn.Enabled = true;
+        }
+
+        private void allBtnOff()
+        {
+            colorWipeBtn.Enabled = false;
+            christmasLightBtn.Enabled = false;
+            rainbowBtn.Enabled = false;
+            rainbowBtn.Enabled = false;
+            rainbowCycleBtn.Enabled = false;
+            meteorRainBtn.Enabled = false;
+            fillRandomBtn.Enabled = false;
+            randomColorsBtn.Enabled = false;
+            theaterChaseBtn.Enabled = false;
+            theaterChaseRainbowBtn.Enabled = false;
+            alternateSingleBtn.Enabled = false;
+            zipBtn.Enabled = false;
+            StackBtn.Enabled = false;
+        }
+
+        private async void christmasLightBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("christmas"));
+        }
+
+        private async void rainbowBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("rainbow"));
+        }
+
         private async void stopBtn_Click(object sender, EventArgs e)
         {
             allBtnON();
@@ -114,19 +150,66 @@ namespace lightControlForm
             await Task.Run(() => Client.Send("color"));
         }
 
-        private void allBtnON()
+        private async void rainbowCycle_Click(object sender, EventArgs e)
         {
-            colorWipeBtn.Enabled = true;
-            christmasLightBtn.Enabled = true;
-            rainbowBtn.Enabled = true;
-            stopBtn.Enabled = true;
+            allBtnOff();
+            await Task.Run(() => Client.Send("rainbow cycle"));
         }
 
-        private void allBtnOff()
+        private async void meteorRainBtn_Click(object sender, EventArgs e)
         {
-            colorWipeBtn.Enabled = false;
-            christmasLightBtn.Enabled = false;
-            rainbowBtn.Enabled = false;
+            allBtnOff();
+            await Task.Run(() => Client.Send("meteor rain"));
+        }
+
+        private async void fillRandomBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("fill random"));
+        }
+
+        private async void theaterChaseBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("theater chase"));
+        }
+
+        private async void theaterChaseRainbow_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("theater chase rainbow"));
+        }
+
+        private async void alternateSingleBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("alternate single"));
+        }
+
+        private async void zipBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("zip"));
+        }
+
+        private async void StackBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("stack"));
+        }
+
+        private async void randomColorsBtn_Click(object sender, EventArgs e)
+        {
+            allBtnOff();
+            await Task.Run(() => Client.Send("random colors"));
+        }
+
+        private void textChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Port = Convert.ToInt32(portTextBox.Text);
+            Settings.Default.IP = ipAddressTextBox.Text;
+            Settings.Default.Save();
+            
         }
     }
 }
