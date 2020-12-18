@@ -186,10 +186,11 @@ def wheel(pos):
 def rainbow(strip, wait_ms=20):
     """Draw rainbow that fades across all pixels at once."""
     while True:
-        for i in range(strip.numPixels()):
-            strip.setPixelColor(i, wheel((i+j) & 255))
-        strip.show()
-        time.sleep(wait_ms/1000.0)
+        for j in range(256):
+            for i in range(strip.numPixels()):
+                strip.setPixelColor(i, wheel((i+j) & 255))
+            strip.show()
+            time.sleep(wait_ms/1000.0)
 
 def rainbowCycle(strip, wait_ms=20):
     """Draw rainbow that uniformly distributes itself across all pixels."""
@@ -216,14 +217,14 @@ light_command = {
     'init': rainbowCycle, #sus
     'color': colorWipe, # working
     'rainbow': rainbow, #sus
-    'rainbow cycle': rainbowCycle, #sus
-    'meteor rain': MeteorRain, # failed
-    'fill random': FillDownRandom, #working
-    'random colors': RandomColors, # working
-    'theater chase': theaterChase, # working
-    'theater chase rainbow': theaterChaseRainbow, #working
+    'rainbowCycle': rainbowCycle, #sus
+    'meteorRain': MeteorRain, # failed
+    'fillRandom': FillDownRandom, #working
+    'randomColors': RandomColors, # working
+    'theaterChase': theaterChase, # working
+    'theaterChaseRainbow': theaterChaseRainbow, #working
     'christmas': christmas,
-    'alternate single': alternate_single,
+    'alternateSingle': alternate_single,
     'zip': zip_down_back,
     'stack': stack,
 }

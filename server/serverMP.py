@@ -70,13 +70,13 @@ def main():
         # pdb.set_trace()
         if message_process == None:
             message_process = Process(target=readMessage,
-                                    args=(queue, clientSocket))
+                                    args=(queue, clientSocket,))
             message_process.start()
             print ("client loop started")
-
+        print('pre message')
         msg = queue.get()
 
-        print('here')
+        print('post message')
         if msg == "stop":
             if main_process:
                 main_process.terminate()
