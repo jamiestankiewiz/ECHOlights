@@ -44,16 +44,6 @@ def sendMessage(msg, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.sendto(msg, port)
 
-def christmasLight():
-  while True:
-    print("christmas light")
-    time.sleep(0.5)
-
-def rainbow():
-  while True:
-    print("rainbow")
-    time.sleep(0.5)
-
 def main():
     # Create NeoPixel object with appropriate configuration.
     strip = Adafruit_NeoPixel(LED_COUNT,

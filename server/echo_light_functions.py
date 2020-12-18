@@ -13,8 +13,8 @@ LED_BRIGHTNESS = 50     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor
 						 # level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
-RED = Color(127, 0, 0)
-GREEN = Color(0, 0, 255)
+RED = Color(255, 0, 0)
+GREEN = Color(0, 255, 0)
 WHITE = Color(255, 255, 255)
 BLANK = Color(0, 0, 0)
 
@@ -24,9 +24,9 @@ def SetAll(strip, color):
         strip.setPixelColor(i, color)
 
 def random_color():
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
+        r = random.randint(0, 256)
+        g = random.randint(0, 256)
+        b = random.randint(0, 256)
         return Color(r, g, b)
 
 def asc_desc(start, finish):
@@ -36,11 +36,12 @@ def alternate_single(strip, color=None, wait_ms=1000):
     if not color:
         color = random_color()
     while True:
-        for led in range(0, strip.numPixels(),2):
-            strip.setPixelColor(led + i%2, color)
-            strip.setPixelColor(led + i%2 + 1, BLANK)
-            strip.show()
-        time.sleep(wait_ms/1000)
+        for i in range(2):
+            for led in range(0, strip.numPixels(),2):
+                strip.setPixelColor(led + i%2, color)
+                strip.setPixelColor(led + i%2 + 1, BLANK)
+                strip.show()
+            time.sleep(wait_ms/1000)
 
 def zip_down_back(strip, wait_ms=100):
     color = random_color()
@@ -137,19 +138,17 @@ def RandomColors(strip, SpeedDelay=.1):
         time.sleep(SpeedDelay)
 
 def christmas(strip):
-    import pdb
-    pdb.set_trace()
-
     colors = [RED, BLANK, GREEN, BLANK]
     print("CHRISTMAS")
     while True:
-        print("CHRISTMAS-while")
-        for color_iter in range(4):
-            for light_pos in range(0, strip.numPixels(), 4):
-                strip.setPixelColor(light_pos+color_iter+i%4,
-                				    colors[color_iter])
-        strip.show()
-        time.sleep(1000/1000.0)
+        for i in range(4):
+            print("CHRISTMAS-while")
+            for color_iter in range(4):
+                for light_pos in range(0, strip.numPixels(), 4):
+                    strip.setPixelColor(light_pos+color_iter+i%4,
+                                        colors[color_iter])
+            strip.show()
+            time.sleep(1000/1000.0)
 
 # Define functions which animate LEDs in various ways.
 def colorWipe(strip, color=None, wait_ms=1000):
@@ -195,11 +194,12 @@ def rainbow(strip, wait_ms=20):
 def rainbowCycle(strip, wait_ms=20):
     """Draw rainbow that uniformly distributes itself across all pixels."""
     while True:
-        for i in range(strip.numPixels()):
-            strip.setPixelColor(i, wheel(
-            							(int(i*256/strip.numPixels())+j) & 255))
-        strip.show()
-        time.sleep(wait_ms/1000.0)
+        for j in range(256):
+            for i in range(strip.numPixels()):
+                strip.setPixelColor(i, wheel(
+                                            (int(i*256/strip.numPixels())+j) & 255))
+            strip.show()
+            time.sleep(wait_ms/1000.0)
 
 def theaterChaseRainbow(strip, wait_ms=50):
     """Rainbow movie theater light style chaser animation."""
