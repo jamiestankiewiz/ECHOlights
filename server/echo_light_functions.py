@@ -18,6 +18,14 @@ GREEN = Color(0, 255, 0)
 WHITE = Color(255, 255, 255)
 BLANK = Color(0, 0, 0)
 
+def SetAllOff(strip):
+    """Wipe color across display a pixel at a time."""
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, BLANK)
+        strip.show()
+
+    print("done")
+
 def SetAll(strip, color):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -32,18 +40,18 @@ def random_color():
 def asc_desc(start, finish):
     return list(range(start, finish)) + list(range(finish, start, -1))
 
-def alternate_single(strip, color=None, wait_ms=1000):
+def alternate_single(strip, color=None, wait_ms=1):
     if not color:
         color = random_color()
     while True:
-        for i in range(2):
-            for led in range(0, strip.numPixels(),2):
+        for led in range(0, strip.numPixels(), 2):
+            for i in range(2):
                 strip.setPixelColor(led + i%2, color)
                 strip.setPixelColor(led + i%2 + 1, BLANK)
                 strip.show()
             time.sleep(wait_ms/1000)
 
-def zip_down_back(strip, wait_ms=100):
+def zip_down_back(strip, wait_ms=1):
     color = random_color()
     while True:
         for led in list(range(int(strip.numPixels()))) + \
@@ -53,7 +61,7 @@ def zip_down_back(strip, wait_ms=100):
             time.sleep(wait_ms/1000)
             strip.setPixelColor(led, BLANK)
 
-def stack(strip, color=None, wait_ms=100):
+def stack(strip, color=None, wait_ms=1):
     color = random_color()
     while True:
         for led_end_pos in range(strip.numPixels()+1, -1, -1):
@@ -205,26 +213,28 @@ def rainbowCycle(strip, wait_ms=20):
 def theaterChaseRainbow(strip, wait_ms=50):
     """Rainbow movie theater light style chaser animation."""
     while True:
-        for q in range(3):
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, wheel((i+j) % 255))
-            strip.show()
-            time.sleep(wait_ms/1000.0)
-            for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
+        for j in range(256):
+            for q in range(3):
+                for i in range(0, strip.numPixels(), 3):
+                    strip.setPixelColor(i+q, wheel((i+j) % 255))
+                strip.show()
+                time.sleep(wait_ms/1000.0)
+                for i in range(0, strip.numPixels(), 3):
+                    strip.setPixelColor(i+q, 0)
 
 light_command = {
     'init': rainbowCycle, #sus
     'color': colorWipe, # working
-    'rainbow': rainbow, #sus
+    'rainbow': rainbow, # sus
     'rainbowCycle': rainbowCycle, #sus
     'meteorRain': MeteorRain, # failed
-    'fillRandom': FillDownRandom, #working
+    'fillRandom': FillDownRandom, # working
     'randomColors': RandomColors, # working
     'theaterChase': theaterChase, # working
-    'theaterChaseRainbow': theaterChaseRainbow, #working
-    'christmas': christmas,
-    'alternateSingle': alternate_single,
-    'zip': zip_down_back,
-    'stack': stack,
+    'theaterChaseRainbow': theaterChaseRainbow, # working
+    'christmas': christmas, # working
+    'alternateSingle': alternate_single, # woring, needs debugging
+    'zip': zip_down_back, # update time
+    'stack': stack, # update time
+    'off': SetAll
 }
