@@ -18,19 +18,6 @@ GREEN = Color(0, 0, 255)
 WHITE = Color(255, 255, 255)
 BLANK = Color(0, 0, 0)
 
-light_command = {
-    'init': rainbowCycle, #sus
-    'color': colorWipe, # working
-    'rainbow': rainbow, #sus
-    'rainbow cycle': rainbowCycle, #sus
-    'meteor rain': MeteorRain, # failed
-    'fill random': FillDownRandom, #working
-    'random colors': RandomColors, # working
-    'theater chase': theaterChase, # working
-    'theater chase rainbow': theaterChaseRainbow, #working
-    'christmas': christmas # working!! :)
-}
-
 def SetAll(strip, color):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -224,3 +211,19 @@ def theaterChaseRainbow(strip, wait_ms=50):
             time.sleep(wait_ms/1000.0)
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
+
+light_command = {
+    'init': rainbowCycle, #sus
+    'color': colorWipe, # working
+    'rainbow': rainbow, #sus
+    'rainbow cycle': rainbowCycle, #sus
+    'meteor rain': MeteorRain, # failed
+    'fill random': FillDownRandom, #working
+    'random colors': RandomColors, # working
+    'theater chase': theaterChase, # working
+    'theater chase rainbow': theaterChaseRainbow, #working
+    'christmas': christmas,
+    'alternate single': alternate_single,
+    'zip': zip_down_back,
+    'stack': stack,
+}

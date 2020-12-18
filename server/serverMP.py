@@ -3,10 +3,10 @@ import socket
 import queue as Q
 import time
 from multiprocessing import Process, Queue
-from echoLights import *
+from echo_light_functions import *
 from rpi_ws281x import *
 
-PORT = 7806
+PORT = 7809
 
 def socketBinding(port):
     """
@@ -86,7 +86,7 @@ def main():
 
         msg = queue.get()
 
-
+        print('here')
         if msg == "stop":
             if main_process:
                 main_process.terminate()
