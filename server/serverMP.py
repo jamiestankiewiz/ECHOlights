@@ -6,7 +6,7 @@ from multiprocessing import Process, Queue
 from echo_light_functions import *
 from rpi_ws281x import *
 
-PORT = 7813
+PORT = 7816
 
 def socketBinding(port):
     """
@@ -41,7 +41,7 @@ def sendMessage(sock, msg, port):
     """
     This function writes the message from the server to the client.
     """
-#     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # sock.send(str.encode(msg), port)
     sock.send(str.encode(msg))
 
@@ -58,16 +58,19 @@ def main():
     strip.begin()
 
     info = ('', PORT) # host and port number
-
     # setting the socket connection
     clientSocket = socketBinding(info)
 
     queue = Queue()
-    main_process = None   # the read processing thread
+    main_process = None   # the read processing thread; main_process.start()
     message_process = None   # the main processing thread
 
     while True:
-
+        SetAll(strip, Color(255, 255, 255))
+        time.sleep(1)
+        SetAll(strip, Color(0, 255, 0))
+        time.sleep(1)
+        SetAllOff(strip)
         if message_process == None:
             message_process = Process(target=readMessage,
                                     args=(queue, clientSocket,))
@@ -84,31 +87,23 @@ def main():
                 print("processing thread stopped")
             else:
                 print("processing thread not running")
+
         elif msg == "quit":
             print("shutting down...")
-            end_process = Process(target=sendMessage,args=(clientSocket, msg, PORT,))
-            end_process.start()
+            # end_process = Process(target=sendMessage,args=(clientSocket, msg, PORT,))
+#             end_process.start()
 #             sendMessage(clientSocket,msg, PORT)
-#             clientsocket.send(str.encode(msg))
+            #clientSocket.send(str.encode(msg))
             print('after process')
             if main_process:
                 main_process.terminate()
                 main_process = None
+                SetAllOff(strip)
             if message_process:
                 message_process.terminate()
                 message_process = None
-            print('before off')
-
-     #        main_process = process(target=setalloff, args=(strip,))
-#             main_process.start()
-
-            SetAllOff(strip)
-            print('after off')
             clientSocket.close()
             print('after close')
-#             end_process.terminate()
-         #    main_process.terminate()
-#             main_process = None
             break
         else:
             main_process = Process(target=light_command[msg], args=(strip,))

@@ -9,7 +9,7 @@ LED_PIN        = 18      # PWM18GPIO pin connectend to the pixels (18 uses PWM!)
 						  #(10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 50     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 20     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor
 						 # level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
@@ -20,16 +20,20 @@ BLANK = Color(0, 0, 0)
 
 def SetAllOff(strip):
     """Wipe color across display a pixel at a time."""
+    print("set all off start")
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, BLANK)
-        strip.show()
-
-    print("done")
+    strip.show() # indenting/unindenting this line makes a big difference. If indented, it works but takes a LONG time to respond.
+        # unindenting doesn't take as much time but the light is NOT set to blank
+        # TESTED: This function WORKS when ran seperately
+        #
+    print("set all off start DONE")
 
 def SetAll(strip, color):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
+    strip.show()
 
 def random_color():
         r = random.randint(0, 256)
