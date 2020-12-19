@@ -51,10 +51,12 @@ namespace lightControlForm
         {
             try
             {
+
                 // Disconnect from the socket
                 var resp = await Task.Run(() => Client.Send("quit"));
+                MessageBox.Show(resp);
                 Client.Disconnect();
-
+                Client.IsActive = false;
                 buttotnStatus();
             }
             catch (Exception ex)
