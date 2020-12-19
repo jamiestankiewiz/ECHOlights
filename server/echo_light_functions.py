@@ -44,16 +44,15 @@ def random_color():
 def asc_desc(start, finish):
     return list(range(start, finish)) + list(range(finish, start, -1))
 
-def alternate_single(strip, color=None, wait_ms=1):
+def alternate_single(strip, color=None, wait_ms=1000):
     if not color:
         color = random_color()
     while True:
         for led in range(0, strip.numPixels(), 2):
-            for i in range(2):
-                strip.setPixelColor(led + i%2, color)
-                strip.setPixelColor(led + i%2 + 1, BLANK)
-                strip.show()
-            time.sleep(wait_ms/1000)
+            strip.setPixelColor(led + led%2, color)
+            strip.setPixelColor(led + led%2 + 1, BLANK)
+        strip.show()
+        time.sleep(wait_ms/1000)
 
 def zip_down_back(strip, wait_ms=1):
     color = random_color()

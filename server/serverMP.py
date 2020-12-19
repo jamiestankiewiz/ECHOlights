@@ -78,7 +78,7 @@ def main():
             print ("client loop started")
 
         msg = queue.get()
-        print('message requested in queue: '+ msg)
+        print('message requested in queue: ', msg)
 
         if msg == "stop":
             if main_process:
@@ -90,9 +90,6 @@ def main():
 
         elif msg == "quit":
             print("shutting down...")
-            # end_process = Process(target=sendMessage,args=(clientSocket, msg, PORT,))
-#             end_process.start()
-#             sendMessage(clientSocket,msg, PORT)
             #clientSocket.send(str.encode(msg))
             print('after process')
             if main_process:
