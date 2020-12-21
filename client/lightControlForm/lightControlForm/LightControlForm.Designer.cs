@@ -51,7 +51,7 @@
             // 
             // connectBtn
             // 
-            this.connectBtn.BackColor = System.Drawing.Color.Lime;
+            this.connectBtn.BackColor = System.Drawing.SystemColors.Control;
             this.connectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.connectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.connectBtn.Location = new System.Drawing.Point(87, 66);
@@ -64,7 +64,7 @@
             // 
             // disconnectBtn
             // 
-            this.disconnectBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.disconnectBtn.BackColor = System.Drawing.SystemColors.Control;
             this.disconnectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.disconnectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.disconnectBtn.Location = new System.Drawing.Point(219, 66);
@@ -99,7 +99,7 @@
             // 
             // stopBtn
             // 
-            this.stopBtn.BackColor = System.Drawing.Color.Red;
+            this.stopBtn.BackColor = System.Drawing.SystemColors.Control;
             this.stopBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.stopBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stopBtn.Location = new System.Drawing.Point(34, 316);

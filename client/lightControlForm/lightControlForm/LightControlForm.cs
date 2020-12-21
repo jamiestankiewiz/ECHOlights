@@ -28,7 +28,6 @@ namespace lightControlForm
             allBtnOff();
             portTextBox.Text = Settings.Default.Port.ToString();
             ipAddressTextBox.Text = Settings.Default.IpAdd;
-            
         }
         private void connectBtn_Click(object sender, EventArgs e)
         {
@@ -51,13 +50,15 @@ namespace lightControlForm
         {
             try
             {
+                Client.IsActive = false;
+                connectBtn.Enabled = false;
+                buttotnStatus();
 
                 // Disconnect from the socket
-                var resp = await Task.Run(() => Client.Send("quit"));
-                MessageBox.Show(resp);
+                var resp = Task.Run(() => Client.Send("quit"));
+                Client.Send("quit");
                 Client.Disconnect();
-                Client.IsActive = false;
-                buttotnStatus();
+                connectBtn.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -70,7 +71,7 @@ namespace lightControlForm
             if (Client.IsActive)
             {
                 connectBtn.Enabled = false;
-                disconnectBtn.Enabled = true;
+                disconnectBtn.Enabled = false;
                 allBtnON();
 
 
@@ -143,6 +144,7 @@ namespace lightControlForm
         private async void stopBtn_Click(object sender, EventArgs e)
         {
             allBtnON();
+            disconnectBtn.Enabled = true;
             await Task.Run(() => Client.Send("stop"));
         }
 
