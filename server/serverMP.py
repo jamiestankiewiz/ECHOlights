@@ -59,6 +59,7 @@ def main():
 
     info = ('', PORT) # host and port number
     # setting the socket connection
+    print("Attempting to bind socket")
     clientSocket = socketBinding(info)
 
     queue = Queue()
@@ -66,11 +67,12 @@ def main():
     message_process = None   # the main processing thread
 
     while True:
+        print("Initializing the lights")
         SetAll(strip, Color(255, 255, 255))
         time.sleep(1)
-        SetAll(strip, Color(0, 255, 0))
-        time.sleep(1)
         SetAllOff(strip)
+        time.sleep(1)
+
         if message_process == None:
             message_process = Process(target=readMessage,
                                     args=(queue, clientSocket,))
@@ -109,6 +111,7 @@ def main():
 if __name__ == "__main__":
     try:
         while True:
+            print("In main")
             main()
     except KeyboardInterrupt:
         print("Terminating the program")
