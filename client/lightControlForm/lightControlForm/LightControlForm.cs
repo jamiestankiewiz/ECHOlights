@@ -16,6 +16,8 @@ namespace lightControlForm
     {
         public SocketConnection Client { get; set; }
         private bool disconnectSwitch;
+        private bool initSwitch;
+
         public LightControlForm()
         {
             InitializeComponent();
@@ -29,6 +31,7 @@ namespace lightControlForm
             allBtnOff();
             portTextBox.Text = Settings.Default.Port.ToString();
             ipAddressTextBox.Text = Settings.Default.IpAdd;
+            initSwitch = false;
         }
         private void connectBtn_Click(object sender, EventArgs e)
         {
@@ -40,8 +43,10 @@ namespace lightControlForm
                 Client.Connect();
 
                 buttotnStatus();
+                initSwitch = true;
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"ERROR: {ex.Message}. Make sure the server is active.","Connection Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
@@ -89,14 +94,19 @@ namespace lightControlForm
 
         private async void formClosing(object sender, FormClosingEventArgs e)
         {
-            var res = MessageBox.Show(this, "You really want to quit?", "Exit",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (res == DialogResult.Yes)
+            if (!initSwitch)
             {
+                e.Cancel = false;
+                return;
+            }
+            //var res = MessageBox.Show(this, "You really want to quit?", "Exit",
+            //    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            //if (res == DialogResult.Yes)
+            //{
                 if (!disconnectSwitch)
                 {
                     e.Cancel = true;
-                    MessageBox.Show("Make sure to click STOP then DISCONNECT first");
+                    MessageBox.Show("To safely exit the application, click 'DISCONNECT'\n\nIf 'DISCONNECT' is greyed out, click 'STOP' then 'DISCONNECT'","WARNING",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                     return;
                 }
                 else
@@ -112,11 +122,11 @@ namespace lightControlForm
                         buttotnStatus();
                     }
                 }
-            }
-            else
-            {
-                e.Cancel = true;
-            }
+            //}
+            //else
+            //{
+            //    e.Cancel = true;
+            //}
 
             //if (Client != null)
             //{
