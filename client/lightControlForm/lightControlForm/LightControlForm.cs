@@ -15,6 +15,7 @@ namespace lightControlForm
     public partial class LightControlForm : Form
     {
         public SocketConnection Client { get; set; }
+        private bool disconnectSwitch;
         public LightControlForm()
         {
             InitializeComponent();
@@ -55,10 +56,11 @@ namespace lightControlForm
                 buttotnStatus();
 
                 // Disconnect from the socket
-                var resp = Task.Run(() => Client.Send("quit"));
-                Client.Send("quit");
+                var resp = await Task.Run(() => Client.Send("quit"));
+                //Client.Send("quit");
                 Client.Disconnect();
                 connectBtn.Enabled = true;
+                disconnectSwitch = true;
             }
             catch (Exception ex)
             {
@@ -85,13 +87,46 @@ namespace lightControlForm
             }
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private async void formClosing(object sender, FormClosingEventArgs e)
         {
-            if (Client != null)
+            var res = MessageBox.Show(this, "You really want to quit?", "Exit",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res == DialogResult.Yes)
             {
-                Client.Disconnect();
-                buttotnStatus();
+                if (!disconnectSwitch)
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("Make sure to click STOP then DISCONNECT first");
+                    return;
+                }
+                else
+                {
+                    e.Cancel = false;
+                    if (Client != null)
+                    {
+                        await Task.Run(() => Client.Send("stop"));
+
+                        var resp = await Task.Run(() => Client.Send("quit"));
+                        //Client.Send("quit");
+                        Client.Disconnect();
+                        buttotnStatus();
+                    }
+                }
             }
+            else
+            {
+                e.Cancel = true;
+            }
+
+            //if (Client != null)
+            //{
+            //    await Task.Run(() => Client.Send("stop"));
+
+            //    var resp = await Task.Run(() => Client.Send("quit"));
+            //    //Client.Send("quit");
+            //    Client.Disconnect();
+            //    buttotnStatus();
+            //}
         }
 
         private void allBtnON()

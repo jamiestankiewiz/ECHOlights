@@ -25,7 +25,7 @@ namespace lightControlForm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("7805")]
+        [global::System.Configuration.DefaultSettingValueAttribute("7777")]
         public int Port {
             get {
                 return ((int)(this["Port"]));
@@ -37,7 +37,7 @@ namespace lightControlForm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10.10.14.53")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.10.45.51")]
         public string IP {
             get {
                 return ((string)(this["IP"]));
@@ -49,7 +49,7 @@ namespace lightControlForm.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10.10.14.53")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.10.45.51")]
         public string IpAdd {
             get {
                 return ((string)(this["IpAdd"]));

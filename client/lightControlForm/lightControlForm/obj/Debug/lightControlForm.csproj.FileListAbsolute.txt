@@ -10,3 +10,4 @@ C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\l
 C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.csproj.CopyComplete
 C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.exe
 C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.pdb
+C:\Users\han\src\ECHOlights\client\lightControlForm\lightControlForm\obj\Debug\lightControlForm.csproj.CoreCompileInputs.cache
